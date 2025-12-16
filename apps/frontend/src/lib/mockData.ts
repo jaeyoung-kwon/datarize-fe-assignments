@@ -1,8 +1,9 @@
 export interface Purchase {
-  productId: number
-  customerId: number
-  quantity: number
   date: string
+  quantity: number
+  product: string
+  price: number
+  imgSrc: string
 }
 
 export interface Customer {

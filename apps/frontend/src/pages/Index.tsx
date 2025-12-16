@@ -1,5 +1,5 @@
 import Header from '@/components/Header'
-import CustomerDetailDialog from '@/components/dashboard/CustomerDetailDialog'
+import CustomerDetailModal from '@/components/dashboard/CustomerDetailModal'
 import CustomerList from '@/components/dashboard/CustomerList'
 import PurchaseFrequencyChart from '@/components/dashboard/PurchaseFrequencyChart'
 import type { Customer } from '@/lib/mockData'
@@ -29,7 +29,7 @@ const Index = () => {
           <CustomerList onSelectCustomer={handleSelectCustomer} />
         </ChartListContainer>
 
-        <CustomerDetailDialog customer={selectedCustomer} open={dialogOpen} onClose={handleCloseDialog} />
+        <CustomerDetailModal customer={selectedCustomer} open={dialogOpen} onClose={handleCloseDialog} />
       </ContentWrapper>
     </Container>
   )
