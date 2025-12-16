@@ -7,50 +7,46 @@ import { ko } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { DateRange } from './DateRangePicker.types';
 
 interface Props {
-  from: Date | null;
-  to: Date | null;
-  onChange: (from: Date, to: Date) => void;
+  value: DateRange;
+  onChange: (value: DateRange) => void;
   minDate?: Date;
   maxDate?: Date;
   label?: string;
 }
 
 const DateRangePicker = ({
-  from,
-  to,
+  value,
   onChange,
   minDate,
   maxDate,
   label = '기간 선택',
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, setStartDate] = useState<Date | null>(from);
-  const [endDate, setEndDate] = useState<Date | null>(to);
+  const [range, setRange] = useState<DateRange>(value);
   const containerRef = useClickOutsideRef<HTMLDivElement>(() =>
     setIsOpen(false),
   );
 
-  const handleChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const handleChange = ([start, end]: [Date | null, Date | null]) => {
+    console.log(start, end);
+    setRange({ from: start, to: end });
 
     // 범위가 완전히 선택되면 부모에게 알리고 달력 닫기
     if (start && end) {
-      onChange(start, end);
+      onChange({ from: start, to: end });
       setIsOpen(false);
     }
   };
 
-  // 모달이 열릴 때마다 from, to 값으로 내부 상태 초기화
+  // 모달이 열릴 때마다 value 값으로 내부 상태 초기화
   useEffect(() => {
     if (!isOpen) return;
 
-    setStartDate(from);
-    setEndDate(to);
-  }, [isOpen, from, to]);
+    setRange(value);
+  }, [isOpen, value]);
 
   return (
     <Container ref={containerRef}>
@@ -59,8 +55,8 @@ const DateRangePicker = ({
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <CalendarIcon />
-        {from && to
-          ? `${from.toLocaleDateString()} ~ ${to.toLocaleDateString()}`
+        {value.from && value.to
+          ? `${value.from.toLocaleDateString()} ~ ${value.to.toLocaleDateString()}`
           : label}
       </ToggleButton>
 
@@ -70,10 +66,10 @@ const DateRangePicker = ({
             inline
             selectsRange
             locale={ko}
-            selected={startDate}
+            selected={range.from}
             onChange={handleChange}
-            startDate={startDate}
-            endDate={endDate}
+            startDate={range.from}
+            endDate={range.to}
             minDate={minDate}
             maxDate={maxDate}
           />

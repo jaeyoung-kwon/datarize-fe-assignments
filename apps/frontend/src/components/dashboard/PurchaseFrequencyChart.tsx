@@ -2,31 +2,36 @@ import { Spinner } from '@/styles/styled';
 import { Suspense, useState } from 'react';
 import Card from '../Card';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';
+import { DateRange } from '../DateRangePicker/DateRangePicker.types';
 import PurchaseFrequencyChartContent from './PurchaseFrequencyChartContent';
+import { endOfMonth, startOfMonth } from 'date-fns';
+
+const MONTH = new Date(2024, 6); // 2024년 7월
 
 const PurchaseFrequencyChart = () => {
-  const [fromDate, setFromDate] = useState<Date>(new Date('2024-07-01'));
-  const [toDate, setToDate] = useState<Date>(new Date('2024-07-31'));
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: startOfMonth(MONTH),
+    to: endOfMonth(MONTH),
+  });
 
   return (
     <Card
       title="가격대별 구매 빈도"
       headerAction={
         <DateRangePicker
-          from={fromDate}
-          to={toDate}
-          onChange={(start, end) => {
-            setFromDate(start);
-            setToDate(end);
-          }}
-          minDate={new Date('2024-07-01')}
-          maxDate={new Date('2024-07-31')}
+          value={dateRange}
+          onChange={setDateRange}
+          minDate={startOfMonth(MONTH)}
+          maxDate={endOfMonth(MONTH)}
         />
       }
       contentHeight={350}
     >
       <Suspense fallback={<Spinner size={32} />}>
-        <PurchaseFrequencyChartContent fromDate={fromDate} toDate={toDate} />
+        <PurchaseFrequencyChartContent
+          fromDate={dateRange.from!}
+          toDate={dateRange.to!}
+        />
       </Suspense>
     </Card>
   );
