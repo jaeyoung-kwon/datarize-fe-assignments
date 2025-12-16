@@ -1,4 +1,4 @@
-import { Spinner } from '@/styles/styled';
+import { Spinner } from '@/components/Spinner';
 import { Suspense, useState } from 'react';
 import Card from '../Card';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';

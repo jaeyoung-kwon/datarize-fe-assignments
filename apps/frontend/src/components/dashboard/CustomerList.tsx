@@ -4,106 +4,28 @@ import Search from '#/search.svg?react';
 import { dashboardQueries } from '@/apis/dashboard/queries';
 import { useSearchParamState } from '@/hooks/useSearchParamState';
 import type { Customer } from '@/lib/mockData';
+import { Badge } from '@/components/Badge';
+import { Input } from '@/components/Input';
+import { Spinner } from '@/components/Spinner';
 import {
-  Badge,
-  Button,
-  Input,
-  Spinner,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from '@/styles/styled';
+} from '@/components/Table';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 import Card from '../Card';
 import { useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
+import { Button } from '../Button';
 
 interface CustomerListProps {
   onSelectCustomer: (customer: Customer) => void;
 }
-
-const SearchWrapper = styled.div`
-  position: relative;
-  width: 100%;
-
-  @media (min-width: 640px) {
-    width: 16rem;
-  }
-`;
-
-const SearchIcon = styled.div`
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: ${theme.colors.mutedForeground};
-`;
-
-const SearchInput = styled(Input)`
-  padding-left: 2.25rem;
-`;
-
-const TableWrapper = styled.div`
-  width: 100%;
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radius};
-  overflow: hidden;
-`;
-
-const SortButton = styled(Button)`
-  padding: 0;
-  font-weight: 600;
-  height: auto;
-
-  &:hover {
-    background-color: transparent;
-  }
-`;
-
-const LoadingCell = styled(TableCell)`
-  height: 8rem;
-`;
-
-const LoadingWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const EmptyCell = styled(TableCell)`
-  height: 8rem;
-  color: ${theme.colors.mutedForeground};
-`;
-
-const CustomerRow = styled(TableRow)<{ isEven: boolean }>`
-  cursor: pointer;
-  background-color: ${({ isEven }) =>
-    isEven ? `${theme.colors.muted}50` : theme.colors.card};
-  transition: ${theme.transitions.default};
-
-  &:hover {
-    background-color: ${theme.colors.accent}15;
-  }
-`;
-
-const CustomerIdCell = styled(TableCell)`
-  font-family: monospace;
-  font-size: 0.875rem;
-  color: ${theme.colors.mutedForeground};
-`;
-
-const CustomerNameCell = styled(TableCell)`
-  font-weight: 500;
-`;
-
-const AmountCell = styled(TableCell)`
-  font-weight: 600;
-`;
 
 type SortOrder = 'asc' | 'desc';
 
@@ -224,3 +146,81 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
 };
 
 export default CustomerList;
+
+const SearchWrapper = styled.div`
+  position: relative;
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: 16rem;
+  }
+`;
+
+const SearchIcon = styled.div`
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${theme.colors.mutedForeground};
+`;
+
+const SearchInput = styled(Input)`
+  padding-left: 2.25rem;
+`;
+
+const TableWrapper = styled.div`
+  width: 100%;
+  border: 1px solid ${theme.colors.border};
+  border-radius: ${theme.radius};
+  overflow: hidden;
+`;
+
+const SortButton = styled(Button)`
+  padding: 0;
+  font-weight: 600;
+  height: auto;
+
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
+const LoadingCell = styled(TableCell)`
+  height: 8rem;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EmptyCell = styled(TableCell)`
+  height: 8rem;
+  color: ${theme.colors.mutedForeground};
+`;
+
+const CustomerRow = styled(TableRow)<{ isEven: boolean }>`
+  cursor: pointer;
+  background-color: ${({ isEven }) =>
+    isEven ? `${theme.colors.muted}50` : theme.colors.card};
+  transition: ${theme.transitions.default};
+
+  &:hover {
+    background-color: ${theme.colors.accent}15;
+  }
+`;
+
+const CustomerIdCell = styled(TableCell)`
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: ${theme.colors.mutedForeground};
+`;
+
+const CustomerNameCell = styled(TableCell)`
+  font-weight: 500;
+`;
+
+const AmountCell = styled(TableCell)`
+  font-weight: 600;
+`;

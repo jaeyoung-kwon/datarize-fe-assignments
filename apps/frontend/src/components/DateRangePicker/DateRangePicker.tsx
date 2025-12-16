@@ -1,6 +1,5 @@
 import CalendarIcon from '#/calendar.svg?react';
 import { useClickOutsideRef } from '@/hooks/useClickOutsideRef';
-import { Button } from '@/styles/styled';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { ko } from 'date-fns/locale';
@@ -8,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { DateRange } from './DateRangePicker.types';
+import { Button } from '../Button';
 
 interface Props {
   value: DateRange;
