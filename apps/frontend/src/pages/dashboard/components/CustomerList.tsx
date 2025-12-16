@@ -1,11 +1,10 @@
 import ArrowDown from '#/arrow_down.svg?react';
 import ArrowUp from '#/arrow_up.svg?react';
-import Search from '#/search.svg?react';
 import { dashboardQueries } from '@/apis/dashboard/queries';
 import { useSearchParamState } from '@/hooks/useSearchParamState';
 import type { Customer } from '@/lib/mockData';
 import { Badge } from '@/components/Badge';
-import { Input } from '@/components/Input';
+import { SearchInput } from '@/components/SearchInput';
 import { Spinner } from '@/components/Spinner';
 import {
   Table,
@@ -78,16 +77,11 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
     <Card
       title="고객 목록"
       headerAction={
-        <SearchWrapper>
-          <SearchIcon>
-            <Search style={{ width: '1rem' }} />
-          </SearchIcon>
-          <SearchInput
-            placeholder="고객 이름 검색..."
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-          />
-        </SearchWrapper>
+        <SearchInput
+          placeholder="고객 이름 검색..."
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+        />
       }
     >
       <TableWrapper>
@@ -146,27 +140,6 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
 };
 
 export default CustomerList;
-
-const SearchWrapper = styled.div`
-  position: relative;
-  width: 100%;
-
-  @media (min-width: 640px) {
-    width: 16rem;
-  }
-`;
-
-const SearchIcon = styled.div`
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: ${theme.colors.mutedForeground};
-`;
-
-const SearchInput = styled(Input)`
-  padding-left: 2.25rem;
-`;
 
 const TableWrapper = styled.div`
   width: 100%;
