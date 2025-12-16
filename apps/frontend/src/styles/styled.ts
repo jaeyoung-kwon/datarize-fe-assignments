@@ -3,6 +3,7 @@ import { theme } from './theme';
 
 // Card Components
 export const Card = styled.div`
+  width: 100%;
   background-color: ${theme.colors.card};
   border-radius: ${theme.radius};
   box-shadow: ${theme.shadows.card};
