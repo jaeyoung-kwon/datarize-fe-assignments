@@ -1,24 +1,132 @@
 import CloseIcon from '#/close.svg?react';
 import ShoppingBagIcon from '#/shopping_bag.svg?react';
 import UserIcon from '#/user.svg?react';
-import { fetcher } from '@/apis';
-import type { Customer, Purchase } from '@/lib/mockData';
+import { dashboardQueries } from '@/apis/dashboard/queries';
 import { Divider } from '@/components/Divider';
 import { Spinner } from '@/components/Spinner';
+import { useClickOutsideRef } from '@/hooks/useClickOutsideRef';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import type { Customer } from '@/lib/mockData';
 import { theme } from '@/styles/theme';
+import { formatCurrency } from '@/utils';
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { useEffect } from 'react';
-import { dashboardQueries } from '@/apis/dashboard/queries';
-import { formatCurrency } from '@/utils';
 
 interface CustomerDetailModalProps {
   customer: Customer;
   open: boolean;
   onClose: () => void;
 }
+
+const CustomerDetailModal = ({
+  customer,
+  open,
+  onClose,
+}: CustomerDetailModalProps) => {
+  const { data: purchases, isLoading } = useQuery(
+    dashboardQueries.customerPurchases({ id: customer.id }),
+  );
+
+  useScrollLock({ enabled: open });
+  const ref = useClickOutsideRef<HTMLDivElement>(onClose);
+
+  const formatDate = (dateStr: string) => {
+    return format(new Date(dateStr), 'yyyy년 M월 d일 (EEE)', { locale: ko });
+  };
+
+  // Group purchases by date
+  const purchasesByDate = purchases?.reduce(
+    (acc, purchase) => {
+      const date = purchase.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(purchase);
+      return acc;
+    },
+    {} as Record<string, typeof purchases>,
+  );
+
+  const totalQuantity =
+    purchases?.reduce((sum, purchase) => sum + purchase.quantity, 0) || 0;
+
+  return (
+    <Overlay isOpen={open}>
+      <DialogContainer ref={ref} onClick={(e) => e.stopPropagation()}>
+        <DialogHeader>
+          <HeaderContent>
+            <Avatar>
+              <UserIcon style={{ width: '1.5rem', height: '1.5rem' }} />
+            </Avatar>
+            <CustomerInfo>
+              <CustomerName>{customer?.name}</CustomerName>
+            </CustomerInfo>
+            <CloseButton onClick={onClose}>
+              <CloseIcon style={{ width: '1.5rem', height: '1.5rem' }} />
+            </CloseButton>
+          </HeaderContent>
+        </DialogHeader>
+
+        <StatsGrid>
+          <StatItem>
+            <StatValue>{totalQuantity}</StatValue>
+            <StatLabel>총 구매 횟수</StatLabel>
+          </StatItem>
+          <StatItem>
+            <StatValue accent>
+              {customer ? formatCurrency(customer.totalAmount) : '₩0'}
+            </StatValue>
+            <StatLabel>총 구매 금액</StatLabel>
+          </StatItem>
+        </StatsGrid>
+
+        <ScrollArea>
+          {isLoading ? (
+            <LoadingWrapper>
+              <Spinner size={24} />
+            </LoadingWrapper>
+          ) : (
+            <>
+              {purchasesByDate &&
+                Object.entries(purchasesByDate)
+                  .sort(([a], [b]) => b.localeCompare(a))
+                  .map(([date, datePurchases]) => (
+                    <PurchaseGroup key={date}>
+                      <DateHeader>
+                        <ShoppingBagIcon
+                          style={{ width: '1rem', height: '1rem' }}
+                          color={theme.colors.mutedForeground}
+                        />
+                        <DateText>{formatDate(date)}</DateText>
+                      </DateHeader>
+                      {datePurchases?.map((purchase, index) => (
+                        <PurchaseItem key={index}>
+                          <Thumbnail>
+                            <ThumbnailImage
+                              src={purchase.imgSrc}
+                              alt={purchase.product}
+                            />
+                          </Thumbnail>
+                          <ProductInfo>
+                            <ProductName>{purchase.product}</ProductName>
+                          </ProductInfo>
+                          <Price>{formatCurrency(purchase.price)}</Price>
+                        </PurchaseItem>
+                      ))}
+                      <Divider />
+                    </PurchaseGroup>
+                  ))}
+            </>
+          )}
+        </ScrollArea>
+      </DialogContainer>
+    </Overlay>
+  );
+};
+
+export default CustomerDetailModal;
 
 const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
@@ -190,125 +298,3 @@ const Price = styled.p`
   color: ${theme.colors.foreground};
   text-align: right;
 `;
-
-const CustomerDetailModal = ({
-  customer,
-  open,
-  onClose,
-}: CustomerDetailModalProps) => {
-  const { data: purchases, isLoading } = useQuery(
-    dashboardQueries.customerPurchases({ id: customer.id }),
-  );
-
-  const formatDate = (dateStr: string) => {
-    return format(new Date(dateStr), 'yyyy년 M월 d일 (EEE)', { locale: ko });
-  };
-
-  // Group purchases by date
-  const purchasesByDate = purchases?.reduce(
-    (acc, purchase) => {
-      const date = purchase.date;
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(purchase);
-      return acc;
-    },
-    {} as Record<string, typeof purchases>,
-  );
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  const totalQuantity =
-    purchases?.reduce((sum, purchase) => sum + purchase.quantity, 0) || 0;
-
-  return (
-    <Overlay isOpen={open} onClick={handleOverlayClick}>
-      <DialogContainer onClick={(e) => e.stopPropagation()}>
-        <DialogHeader>
-          <HeaderContent>
-            <Avatar>
-              <UserIcon style={{ width: '1.5rem', height: '1.5rem' }} />
-            </Avatar>
-            <CustomerInfo>
-              <CustomerName>{customer?.name}</CustomerName>
-            </CustomerInfo>
-            <CloseButton onClick={onClose}>
-              <CloseIcon style={{ width: '1.5rem', height: '1.5rem' }} />
-            </CloseButton>
-          </HeaderContent>
-        </DialogHeader>
-
-        <StatsGrid>
-          <StatItem>
-            <StatValue>{totalQuantity}</StatValue>
-            <StatLabel>총 구매 횟수</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatValue accent>
-              {customer ? formatCurrency(customer.totalAmount) : '₩0'}
-            </StatValue>
-            <StatLabel>총 구매 금액</StatLabel>
-          </StatItem>
-        </StatsGrid>
-
-        <ScrollArea>
-          {isLoading ? (
-            <LoadingWrapper>
-              <Spinner size={24} />
-            </LoadingWrapper>
-          ) : (
-            <>
-              {purchasesByDate &&
-                Object.entries(purchasesByDate)
-                  .sort(([a], [b]) => b.localeCompare(a))
-                  .map(([date, datePurchases]) => (
-                    <PurchaseGroup key={date}>
-                      <DateHeader>
-                        <ShoppingBagIcon
-                          style={{ width: '1rem', height: '1rem' }}
-                          color={theme.colors.mutedForeground}
-                        />
-                        <DateText>{formatDate(date)}</DateText>
-                      </DateHeader>
-                      {datePurchases?.map((purchase, index) => (
-                        <PurchaseItem key={index}>
-                          <Thumbnail>
-                            <ThumbnailImage
-                              src={purchase.imgSrc}
-                              alt={purchase.product}
-                            />
-                          </Thumbnail>
-                          <ProductInfo>
-                            <ProductName>{purchase.product}</ProductName>
-                          </ProductInfo>
-                          <Price>{formatCurrency(purchase.price)}</Price>
-                        </PurchaseItem>
-                      ))}
-                      <Divider />
-                    </PurchaseGroup>
-                  ))}
-            </>
-          )}
-        </ScrollArea>
-      </DialogContainer>
-    </Overlay>
-  );
-};
-
-export default CustomerDetailModal;
