@@ -1,8 +1,8 @@
-import Header from '@/components/Header';
-import CustomerDetailModal from '@/components/dashboard/CustomerDetailModal';
-import CustomerList from '@/components/dashboard/CustomerList';
-import PurchaseFrequencyChart from '@/components/dashboard/PurchaseFrequencyChart';
 import type { Customer } from '@/lib/mockData';
+import CustomerDetailModal from '@/pages/dashboard/components/CustomerDetailModal';
+import CustomerList from '@/pages/dashboard/components/CustomerList';
+import DashBoardHeader from '@/pages/dashboard/components/DashBoardHeader';
+import PurchaseFrequencyChart from '@/pages/dashboard/components/PurchaseFrequencyChart';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
@@ -23,7 +23,7 @@ const DashBoardPage = () => {
 
   return (
     <Container>
-      <Header />
+      <DashBoardHeader />
 
       <ContentWrapper>
         <PurchaseFrequencyChart />

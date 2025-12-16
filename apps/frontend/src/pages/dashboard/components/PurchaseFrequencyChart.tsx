@@ -1,8 +1,8 @@
 import { Spinner } from '@/components/Spinner';
 import { Suspense, useState } from 'react';
-import Card from '../Card';
-import DateRangePicker from '../DateRangePicker/DateRangePicker';
-import { DateRange } from '../DateRangePicker/DateRangePicker.types';
+import Card from '../../../components/Card';
+import DateRangePicker from '../../../components/DateRangePicker/DateRangePicker';
+import { DateRange } from '../../../components/DateRangePicker/DateRangePicker.types';
 import PurchaseFrequencyChartContent from './PurchaseFrequencyChartContent';
 import { endOfMonth, startOfMonth } from 'date-fns';
 

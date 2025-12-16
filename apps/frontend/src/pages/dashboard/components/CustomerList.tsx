@@ -18,10 +18,10 @@ import {
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-import Card from '../Card';
+import Card from '../../../components/Card';
 import { useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
-import { Button } from '../Button';
+import { Button } from '../../../components/Button';
 
 interface CustomerListProps {
   onSelectCustomer: (customer: Customer) => void;
