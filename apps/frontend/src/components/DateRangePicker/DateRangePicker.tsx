@@ -87,7 +87,6 @@ export default DateRangePicker;
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const ToggleButton = styled(Button)`
@@ -99,7 +98,7 @@ const ToggleButton = styled(Button)`
 const CalendarPopover = styled.div`
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 50;
   margin-top: 0.25rem;
 
