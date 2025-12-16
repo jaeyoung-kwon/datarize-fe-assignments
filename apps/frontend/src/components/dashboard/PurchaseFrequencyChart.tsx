@@ -1,6 +1,5 @@
 import CalendarIcon from '#/calendar.svg?react'
-import { fetcher } from '@/apis/fetcher'
-import { PurchaseFrequency } from '@/lib/mockData'
+import { dashboardQueries } from '@/apis/dashboard/queries'
 import { Button, Card, CardContent, CardHeader, CardTitle, Spinner } from '@/styles/styled'
 import { theme } from '@/styles/theme'
 import styled from '@emotion/styled'
@@ -215,21 +214,16 @@ const SimpleDatePicker = ({ selected, onSelect, label }: SimpleDatePickerProps) 
   )
 }
 
-const getPurchaseFrequency = async (params: { from?: string; to?: string }) => {
-  return await fetcher.get<PurchaseFrequency[]>({
-    path: '/api/purchase-frequency',
-    query: params,
-  })
-}
-
 const PurchaseFrequencyChart = () => {
   const [fromDate, setFromDate] = useState<Date>(new Date('2024-07-01'))
   const [toDate, setToDate] = useState<Date>(new Date('2024-07-31'))
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['purchaseFrequency', fromDate, toDate],
-    queryFn: () => getPurchaseFrequency({ from: format(fromDate, 'yyyy-MM-dd'), to: format(toDate, 'yyyy-MM-dd') }),
-  })
+  const { data, isLoading } = useQuery(
+    dashboardQueries.purchaseFrequency({
+      from: format(fromDate, 'yyyy-MM-dd'),
+      to: format(toDate, 'yyyy-MM-dd'),
+    }),
+  )
 
   return (
     <Card>

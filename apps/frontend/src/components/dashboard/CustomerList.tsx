@@ -1,7 +1,7 @@
 import ArrowDown from '#/arrow_down.svg?react'
 import ArrowUp from '#/arrow_up.svg?react'
 import Search from '#/search.svg?react'
-import { fetcher } from '@/apis/fetcher'
+import { dashboardQueries } from '@/apis/dashboard/queries'
 import type { Customer } from '@/lib/mockData'
 import {
   Badge,
@@ -116,21 +116,13 @@ const AmountCell = styled(TableCell)`
   font-weight: 600;
 `
 
-const getCustomers = async (params: { sortBy?: 'asc' | 'desc'; name?: string }) => {
-  return await fetcher.get<Customer[]>({
-    path: '/api/customers',
-    query: params,
-  })
-}
-
 const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
   const [searchName, setSearchName] = useState('')
   const [sortBy, setSortBy] = useState<'asc' | 'desc' | undefined>(undefined)
 
-  const { data: customers, isLoading } = useQuery({
-    queryKey: ['customers', searchName, sortBy],
-    queryFn: () => getCustomers({ name: searchName, sortBy }),
-  })
+  const { data: customers, isLoading } = useQuery(
+    dashboardQueries.customers({ name: searchName, sortBy }),
+  )
 
   const handleSort = () => {
     if (!sortBy) {
