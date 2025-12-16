@@ -27,7 +27,7 @@ const PurchaseFrequencyChart = () => {
           maxDate={endOfMonth(MONTH)}
         />
       }
-      contentHeight={350}
+      contentHeight={500}
     >
       <ErrorBoundary FallbackComponent={PurchaseFrequencyLoadError}>
         <Suspense fallback={<Spinner size={32} />}>

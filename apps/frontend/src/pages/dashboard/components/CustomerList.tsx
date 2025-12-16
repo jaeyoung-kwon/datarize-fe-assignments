@@ -1,26 +1,24 @@
-import { dashboardQueries } from '@/apis/dashboard/queries';
 import { useSearchParamState } from '@/hooks/useSearchParamState';
 import { useSort } from '@/pages/dashboard/hooks/useSort';
 import type { Customer } from '@/lib/mockData';
-import { Badge } from '@/components/Badge';
 import { SearchInput } from '@/components/SearchInput';
 import { SortIcon } from '@/components/SortIcon';
-import { Spinner } from '@/components/Spinner';
+import { ErrorBoundary } from 'react-error-boundary';
 import {
   Table,
-  TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/Table';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
 import Card from '../../../components/Card';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { Button } from '@/components/Button';
+import { CustomerTableBody } from './CustomerTableBody';
+import CustomerListLoadError from './CustomerListLoadError';
+import CustomerListLoading from './CustomerListLoading';
 
 interface CustomerListProps {
   onSelectCustomer: (customer: Customer) => void;
@@ -35,20 +33,6 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
   useEffect(() => {
     setSearchNameParam(debouncedSearchInput);
   }, [debouncedSearchInput, setSearchNameParam]);
-
-  const { data: customers, isLoading } = useQuery(
-    dashboardQueries.customers({
-      name: debouncedSearchInput,
-      sortBy: sortBy ? sortBy : undefined,
-    }),
-  );
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ko-KR', {
-      style: 'currency',
-      currency: 'KRW',
-    }).format(amount);
-  };
 
   return (
     <Card
@@ -76,40 +60,15 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <LoadingCell colSpan={4} align="center">
-                  <LoadingWrapper>
-                    <Spinner size={24} />
-                  </LoadingWrapper>
-                </LoadingCell>
-              </TableRow>
-            ) : customers?.length === 0 ? (
-              <TableRow>
-                <EmptyCell colSpan={4} align="center">
-                  검색 결과가 없습니다
-                </EmptyCell>
-              </TableRow>
-            ) : (
-              customers?.map((customer, index) => (
-                <CustomerRow
-                  key={customer.id}
-                  isEven={index % 2 !== 0}
-                  onClick={() => onSelectCustomer(customer)}
-                >
-                  <CustomerIdCell>{customer.id}</CustomerIdCell>
-                  <CustomerNameCell>{customer.name}</CustomerNameCell>
-                  <TableCell align="center">
-                    <Badge>{customer.count}</Badge>
-                  </TableCell>
-                  <AmountCell align="left">
-                    {formatCurrency(customer.totalAmount)}
-                  </AmountCell>
-                </CustomerRow>
-              ))
-            )}
-          </TableBody>
+          <ErrorBoundary FallbackComponent={CustomerListLoadError}>
+            <Suspense fallback={<CustomerListLoading />}>
+              <CustomerTableBody
+                name={debouncedSearchInput}
+                sortBy={sortBy}
+                onSelectCustomer={onSelectCustomer}
+              />
+            </Suspense>
+          </ErrorBoundary>
         </Table>
       </TableWrapper>
     </Card>
@@ -120,9 +79,10 @@ export default CustomerList;
 
 const TableWrapper = styled.div`
   width: 100%;
+  height: 500px;
+  overflow-y: auto;
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius};
-  overflow: hidden;
 `;
 
 const SortButton = styled(Button)`
@@ -133,44 +93,4 @@ const SortButton = styled(Button)`
   &:hover {
     background-color: transparent;
   }
-`;
-
-const LoadingCell = styled(TableCell)`
-  height: 8rem;
-`;
-
-const LoadingWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const EmptyCell = styled(TableCell)`
-  height: 8rem;
-  color: ${theme.colors.mutedForeground};
-`;
-
-const CustomerRow = styled(TableRow)<{ isEven: boolean }>`
-  cursor: pointer;
-  background-color: ${({ isEven }) =>
-    isEven ? `${theme.colors.muted}50` : theme.colors.card};
-  transition: ${theme.transitions.default};
-
-  &:hover {
-    background-color: ${theme.colors.accent}15;
-  }
-`;
-
-const CustomerIdCell = styled(TableCell)`
-  font-family: monospace;
-  font-size: 0.875rem;
-  color: ${theme.colors.mutedForeground};
-`;
-
-const CustomerNameCell = styled(TableCell)`
-  font-weight: 500;
-`;
-
-const AmountCell = styled(TableCell)`
-  font-weight: 600;
 `;

@@ -30,7 +30,7 @@ const PurchaseFrequencyChartContent = ({
   );
 
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={500}>
       <BarChart data={data} margin={{ left: -30, right: 10 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
         <XAxis
