@@ -6,7 +6,7 @@ import type { Customer } from '@/lib/mockData';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-const Index = () => {
+const DashBoardPage = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null,
   );
@@ -41,7 +41,7 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default DashBoardPage;
 
 const Container = styled.div`
   min-height: 100vh;
