@@ -47,7 +47,7 @@ export function useSearchParamState<T extends SearchParamValue = string>(
         search: (prev) => {
           const next = { ...(prev as Record<string, unknown>) };
 
-          if (resolved === null || resolved === undefined) {
+          if (!resolved) {
             delete next[key];
           } else {
             next[key] = resolved;
