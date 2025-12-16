@@ -7,12 +7,12 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Table, TableHead, TableHeader, TableRow } from '@/components/Table';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
-import Card from '../../../components/Card';
+import Card from '../../../../components/Card';
 import { Suspense, useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { Button } from '@/components/Button';
-import { CustomerTableBody } from './CustomerTableBody';
 import CustomerListLoadError from './CustomerListLoadError';
+import { CustomerTableBody } from './CustomerTableBody';
 import CustomerListLoading from './CustomerListLoading';
 
 interface CustomerListProps {
