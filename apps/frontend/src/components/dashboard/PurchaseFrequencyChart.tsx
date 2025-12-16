@@ -1,5 +1,6 @@
 import CalendarIcon from '#/calendar.svg?react'
 import { fetcher } from '@/apis/fetcher'
+import { PurchaseFrequency } from '@/lib/mockData'
 import { Button, Card, CardContent, CardHeader, CardTitle, Spinner } from '@/styles/styled'
 import { theme } from '@/styles/theme'
 import styled from '@emotion/styled'
@@ -214,8 +215,8 @@ const SimpleDatePicker = ({ selected, onSelect, label }: SimpleDatePickerProps) 
   )
 }
 
-export const getPurchaseFrequency = async (params: { from?: string; to?: string }) => {
-  return await fetcher.get({
+const getPurchaseFrequency = async (params: { from?: string; to?: string }) => {
+  return await fetcher.get<PurchaseFrequency[]>({
     path: '/api/purchase-frequency',
     query: params,
   })

@@ -6,15 +6,13 @@ export interface Purchase {
 }
 
 export interface Customer {
-  id: string
+  id: number
   name: string
-  totalPurchases: number
+  count: number
   totalAmount: number
 }
 
 export interface PurchaseFrequency {
-  priceRange: string
+  range: string
   count: number
-  minPrice: number
-  maxPrice: number
 }
