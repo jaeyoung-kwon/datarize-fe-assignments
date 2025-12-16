@@ -1,10 +1,12 @@
 import { Spinner } from '@/components/Spinner';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense, useState } from 'react';
-import Card from '../../../components/Card';
-import DateRangePicker from '../../../components/DateRangePicker/DateRangePicker';
-import { DateRange } from '../../../components/DateRangePicker/DateRangePicker.types';
 import PurchaseFrequencyChartContent from './PurchaseFrequencyChartContent';
 import { endOfMonth, startOfMonth } from 'date-fns';
+import PurchaseFrequencyLoadError from './PurchaseFrequencyLoadError';
+import Card from '@/components/Card';
+import DateRangePicker from '@/components/DateRangePicker/DateRangePicker';
+import { DateRange } from '@/components/DateRangePicker/DateRangePicker.types';
 
 const MONTH = new Date(2024, 6); // 2024년 7월
 
@@ -27,12 +29,14 @@ const PurchaseFrequencyChart = () => {
       }
       contentHeight={350}
     >
-      <Suspense fallback={<Spinner size={32} />}>
-        <PurchaseFrequencyChartContent
-          fromDate={dateRange.from!}
-          toDate={dateRange.to!}
-        />
-      </Suspense>
+      <ErrorBoundary FallbackComponent={PurchaseFrequencyLoadError}>
+        <Suspense fallback={<Spinner size={32} />}>
+          <PurchaseFrequencyChartContent
+            fromDate={dateRange.from!}
+            toDate={dateRange.to!}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </Card>
   );
 };
