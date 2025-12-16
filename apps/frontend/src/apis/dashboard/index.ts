@@ -5,6 +5,7 @@
  */
 
 import type { Customer, PurchaseFrequency } from '@/lib/mockData';
+import type { SortOrder } from '@/types';
 import { fetcher } from '../fetcher';
 
 type PurchaseFrequencyParams = {
@@ -21,7 +22,7 @@ export const getPurchaseFrequency = (params: PurchaseFrequencyParams) => {
 };
 
 type GetCustomersParams = {
-  sortBy?: 'asc' | 'desc';
+  sortBy?: SortOrder;
   name?: string;
 };
 

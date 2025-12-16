@@ -1,10 +1,10 @@
-import ArrowDown from '#/arrow_down.svg?react';
-import ArrowUp from '#/arrow_up.svg?react';
 import { dashboardQueries } from '@/apis/dashboard/queries';
 import { useSearchParamState } from '@/hooks/useSearchParamState';
+import { useSort } from '@/pages/dashboard/hooks/useSort';
 import type { Customer } from '@/lib/mockData';
 import { Badge } from '@/components/Badge';
 import { SearchInput } from '@/components/SearchInput';
+import { SortIcon } from '@/components/SortIcon';
 import { Spinner } from '@/components/Spinner';
 import {
   Table,
@@ -20,22 +20,16 @@ import { useQuery } from '@tanstack/react-query';
 import Card from '../../../components/Card';
 import { useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
-import { Button } from '../../../components/Button';
+import { Button } from '@/components/Button';
 
 interface CustomerListProps {
   onSelectCustomer: (customer: Customer) => void;
 }
 
-type SortOrder = 'asc' | 'desc';
-
 const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
   const [searchName, setSearchName] = useState('');
-  const [, setSearchNameParam] = useSearchParamState<string>('searchName', {
-    defaultValue: '',
-  });
-  const [sortBy, setSortBy] = useSearchParamState<SortOrder | null>('sort', {
-    defaultValue: null,
-  });
+  const [, setSearchNameParam] = useSearchParamState('searchName');
+  const { sortBy, handleSort } = useSort();
   const debouncedSearchInput = useDebouncedValue(searchName, 300);
 
   useEffect(() => {
@@ -49,28 +43,11 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
     }),
   );
 
-  const handleSort = () => {
-    if (!sortBy) {
-      setSortBy('desc');
-    } else if (sortBy === 'desc') {
-      setSortBy('asc');
-    } else {
-      setSortBy(null);
-    }
-  };
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('ko-KR', {
       style: 'currency',
       currency: 'KRW',
     }).format(amount);
-  };
-
-  const getSortIcon = () => {
-    if (!sortBy) return;
-    if (sortBy === 'desc')
-      return <ArrowDown style={{ marginLeft: '0.5rem', width: '1rem' }} />;
-    return <ArrowUp style={{ marginLeft: '0.5rem', width: '1rem' }} />;
   };
 
   return (
@@ -94,7 +71,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               <TableHead style={{ width: '132px' }} align="left">
                 <SortButton variant="ghost" onClick={handleSort}>
                   총 구매 금액
-                  {getSortIcon()}
+                  <SortIcon sortBy={sortBy} />
                 </SortButton>
               </TableHead>
             </TableRow>
