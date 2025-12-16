@@ -5,6 +5,12 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
+
+  & > thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 `;
 
 export const TableHeader = styled.thead``;
@@ -39,7 +45,7 @@ export const TableHead = styled.th<{ align?: 'left' | 'center' | 'right' }>`
   padding: 0.75rem 1rem;
   font-weight: 600;
   text-align: ${({ align = 'left' }) => align};
-  background-color: ${theme.colors.muted}80;
+  background-color: ${theme.colors.muted};
   color: ${theme.colors.foreground};
 `;
 
