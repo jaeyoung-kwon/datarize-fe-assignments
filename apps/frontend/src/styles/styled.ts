@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { theme } from './theme'
+import styled from '@emotion/styled';
+import { theme } from './theme';
 
 // Card Components
 export const Card = styled.div`
@@ -7,24 +7,26 @@ export const Card = styled.div`
   border-radius: ${theme.radius};
   box-shadow: ${theme.shadows.card};
   animation: fadeIn 0.3s ease-out;
-`
+`;
 
 export const CardHeader = styled.div`
   padding: 1.5rem 1.5rem 0.5rem;
-`
+`;
 
 export const CardTitle = styled.h3`
   font-size: 1.125rem;
   font-weight: 600;
   color: ${theme.colors.foreground};
-`
+`;
 
 export const CardContent = styled.div`
   padding: 1.5rem;
-`
+`;
 
 // Button Components
-export const Button = styled.button<{ variant?: 'primary' | 'outline' | 'ghost' }>`
+export const Button = styled.button<{
+  variant?: 'primary' | 'outline' | 'ghost';
+}>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +48,7 @@ export const Button = styled.button<{ variant?: 'primary' | 'outline' | 'ghost' 
           &:hover {
             background-color: ${theme.colors.muted};
           }
-        `
+        `;
       case 'ghost':
         return `
           background-color: transparent;
@@ -55,7 +57,7 @@ export const Button = styled.button<{ variant?: 'primary' | 'outline' | 'ghost' 
           &:hover {
             background-color: ${theme.colors.muted};
           }
-        `
+        `;
       default:
         return `
           background-color: ${theme.colors.primary};
@@ -64,10 +66,10 @@ export const Button = styled.button<{ variant?: 'primary' | 'outline' | 'ghost' 
           &:hover {
             background-color: hsl(215, 50%, 28%);
           }
-        `
+        `;
     }
   }}
-`
+`;
 
 // Input Components
 export const Input = styled.input`
@@ -90,18 +92,18 @@ export const Input = styled.input`
     border-color: ${theme.colors.ring};
     box-shadow: 0 0 0 2px ${theme.colors.ring}20;
   }
-`
+`;
 
 // Table Components
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
-`
+`;
 
-export const TableHeader = styled.thead``
+export const TableHeader = styled.thead``;
 
-export const TableBody = styled.tbody``
+export const TableBody = styled.tbody``;
 
 export const TableRow = styled.tr<{ clickable?: boolean; striped?: boolean }>`
   transition: ${theme.transitions.default};
@@ -125,7 +127,7 @@ export const TableRow = styled.tr<{ clickable?: boolean; striped?: boolean }>`
       background-color: ${theme.colors.muted}50;
     }
   `}
-`
+`;
 
 export const TableHead = styled.th<{ align?: 'left' | 'center' | 'right' }>`
   padding: 0.75rem 1rem;
@@ -133,13 +135,13 @@ export const TableHead = styled.th<{ align?: 'left' | 'center' | 'right' }>`
   text-align: ${({ align = 'left' }) => align};
   background-color: ${theme.colors.muted}80;
   color: ${theme.colors.foreground};
-`
+`;
 
 export const TableCell = styled.td<{ align?: 'left' | 'center' | 'right' }>`
   padding: 0.75rem 1rem;
   text-align: ${({ align = 'left' }) => align};
   border-bottom: 1px solid ${theme.colors.border};
-`
+`;
 
 // Badge Component
 export const Badge = styled.span`
@@ -153,7 +155,7 @@ export const Badge = styled.span`
   border-radius: 9999px;
   background-color: ${theme.colors.accent}30;
   color: ${theme.colors.accentForeground};
-`
+`;
 
 // Spinner Component
 export const Spinner = styled.div<{ size?: number }>`
@@ -163,49 +165,64 @@ export const Spinner = styled.div<{ size?: number }>`
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
-`
+`;
 
 // Flex Utilities
-export const FlexRow = styled.div<{ gap?: number; align?: string; justify?: string }>`
+export const FlexRow = styled.div<{
+  gap?: number;
+  align?: string;
+  justify?: string;
+}>`
   display: flex;
   flex-direction: row;
   gap: ${({ gap = 0 }) => gap}rem;
   align-items: ${({ align = 'stretch' }) => align};
   justify-content: ${({ justify = 'flex-start' }) => justify};
-`
+`;
 
-export const FlexColumn = styled.div<{ gap?: number; align?: string; justify?: string }>`
+export const FlexColumn = styled.div<{
+  gap?: number;
+  align?: string;
+  justify?: string;
+}>`
   display: flex;
   flex-direction: column;
   gap: ${({ gap = 0 }) => gap}rem;
   align-items: ${({ align = 'stretch' }) => align};
   justify-content: ${({ justify = 'flex-start' }) => justify};
-`
+`;
 
 // Container
 export const Container = styled.div`
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-`
+`;
 
 // Separator
 export const Separator = styled.div`
   height: 1px;
   background-color: ${theme.colors.border};
   margin: 1rem 0;
-`
+`;
 
 // Text Utilities
 export const Text = styled.span<{
-  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl'
-  weight?: number
-  color?: keyof typeof theme.colors
-  truncate?: boolean
+  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
+  weight?: number;
+  color?: keyof typeof theme.colors;
+  truncate?: boolean;
 }>`
   font-size: ${({ size = 'base' }) => {
-    const sizes = { xs: '0.75rem', sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem', '2xl': '1.5rem' }
-    return sizes[size]
+    const sizes = {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+    };
+    return sizes[size];
   }};
   font-weight: ${({ weight = 400 }) => weight};
   color: ${({ color }) => (color ? theme.colors[color] : 'inherit')};
@@ -216,4 +233,4 @@ export const Text = styled.span<{
     text-overflow: ellipsis;
     white-space: nowrap;
   `}
-`
+`;
