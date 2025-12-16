@@ -2,6 +2,7 @@ import ArrowDown from '#/arrow_down.svg?react';
 import ArrowUp from '#/arrow_up.svg?react';
 import Search from '#/search.svg?react';
 import { dashboardQueries } from '@/apis/dashboard/queries';
+import { useSearchParamState } from '@/hooks/useSearchParamState';
 import type { Customer } from '@/lib/mockData';
 import {
   Badge,
@@ -18,8 +19,9 @@ import {
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import Card from '../Card';
+import { useEffect, useState } from 'react';
+import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 
 interface CustomerListProps {
   onSelectCustomer: (customer: Customer) => void;
@@ -47,6 +49,7 @@ const SearchInput = styled(Input)`
 `;
 
 const TableWrapper = styled.div`
+  width: 100%;
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius};
   overflow: hidden;
@@ -102,12 +105,27 @@ const AmountCell = styled(TableCell)`
   font-weight: 600;
 `;
 
+type SortOrder = 'asc' | 'desc';
+
 const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
   const [searchName, setSearchName] = useState('');
-  const [sortBy, setSortBy] = useState<'asc' | 'desc' | undefined>(undefined);
+  const [, setSearchNameParam] = useSearchParamState<string>('searchName', {
+    defaultValue: '',
+  });
+  const [sortBy, setSortBy] = useSearchParamState<SortOrder | null>('sort', {
+    defaultValue: null,
+  });
+  const debouncedSearchInput = useDebouncedValue(searchName, 300);
+
+  useEffect(() => {
+    setSearchNameParam(debouncedSearchInput);
+  }, [debouncedSearchInput, setSearchNameParam]);
 
   const { data: customers, isLoading } = useQuery(
-    dashboardQueries.customers({ name: searchName, sortBy }),
+    dashboardQueries.customers({
+      name: debouncedSearchInput,
+      sortBy: sortBy ? sortBy : undefined,
+    }),
   );
 
   const handleSort = () => {
@@ -116,7 +134,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
     } else if (sortBy === 'desc') {
       setSortBy('asc');
     } else {
-      setSortBy(undefined);
+      setSortBy(null);
     }
   };
 
@@ -157,7 +175,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               <TableHead style={{ width: '100px' }}>ID</TableHead>
               <TableHead>이름</TableHead>
               <TableHead align="center">구매 횟수</TableHead>
-              <TableHead align="right">
+              <TableHead style={{ width: '132px' }} align="left">
                 <SortButton variant="ghost" onClick={handleSort}>
                   총 구매 금액
                   {getSortIcon()}
@@ -192,7 +210,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
                   <TableCell align="center">
                     <Badge>{customer.count}</Badge>
                   </TableCell>
-                  <AmountCell align="right">
+                  <AmountCell align="left">
                     {formatCurrency(customer.totalAmount)}
                   </AmountCell>
                 </CustomerRow>
