@@ -29,7 +29,10 @@ const PurchaseFrequencyChart = () => {
       }
       contentHeight={500}
     >
-      <ErrorBoundary FallbackComponent={PurchaseFrequencyLoadError}>
+      <ErrorBoundary
+        FallbackComponent={PurchaseFrequencyLoadError}
+        resetKeys={[dateRange]}
+      >
         <Suspense fallback={<Spinner size={32} />}>
           <PurchaseFrequencyChartContent
             fromDate={dateRange.from!}

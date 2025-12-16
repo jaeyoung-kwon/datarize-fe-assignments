@@ -55,7 +55,10 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <ErrorBoundary FallbackComponent={CustomerListLoadError}>
+          <ErrorBoundary
+            FallbackComponent={CustomerListLoadError}
+            resetKeys={[debouncedSearchInput, sortBy]}
+          >
             <Suspense fallback={<CustomerListLoading />}>
               <CustomerTableBody
                 name={debouncedSearchInput}
