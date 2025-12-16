@@ -7,7 +7,7 @@
  * const { data } = useQuery(dashboardQueries.customers({ name: 'John' }));
  */
 
-import { getCustomers, getPurchaseFrequency } from '.';
+import { getCustomerPurchases, getCustomers, getPurchaseFrequency } from '.';
 
 export const dashboardQueries = {
   /** 모든 대시보드 쿼리의 기본 키 */
@@ -33,5 +33,11 @@ export const dashboardQueries = {
       // 그 외 에러는 최대 3번까지 재시도
       return failureCount < 3;
     },
+  }),
+
+  /** 특정 고객의 구매 내역 쿼리 */
+  customerPurchases: (params: { id: number }) => ({
+    queryKey: [...dashboardQueries.all, 'customerPurchases', params] as const,
+    queryFn: () => getCustomerPurchases(params),
   }),
 };

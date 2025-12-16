@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useEffect } from 'react';
+import { dashboardQueries } from '@/apis/dashboard/queries';
+import { formatCurrency } from '@/utils';
 
 interface CustomerDetailModalProps {
   customer: Customer;
@@ -189,30 +191,14 @@ const Price = styled.p`
   text-align: right;
 `;
 
-const getCustomerPurchases = async (params: { id: number }) => {
-  return await fetcher.get<Purchase[]>({
-    path: `/api/customers/${params.id}/purchases`,
-  });
-};
-
 const CustomerDetailModal = ({
   customer,
   open,
   onClose,
 }: CustomerDetailModalProps) => {
-  const { data: purchases, isLoading } = useQuery({
-    queryKey: ['customerPurchases', customer?.id],
-    queryFn: () => getCustomerPurchases({ id: customer.id }),
-  });
-
-  console.log(purchases);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ko-KR', {
-      style: 'currency',
-      currency: 'KRW',
-    }).format(amount);
-  };
+  const { data: purchases, isLoading } = useQuery(
+    dashboardQueries.customerPurchases({ id: customer.id }),
+  );
 
   const formatDate = (dateStr: string) => {
     return format(new Date(dateStr), 'yyyy년 M월 d일 (EEE)', { locale: ko });

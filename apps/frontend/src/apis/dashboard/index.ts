@@ -4,7 +4,7 @@
  * React Query와 함께 사용하려면 queries.ts를 import하세요.
  */
 
-import type { Customer, PurchaseFrequency } from '@/lib/mockData';
+import type { Customer, Purchase, PurchaseFrequency } from '@/lib/mockData';
 import type { SortOrder } from '@/types';
 import { fetcher } from '../fetcher';
 
@@ -31,5 +31,16 @@ export const getCustomers = (params: GetCustomersParams) => {
   return fetcher.get<Customer[]>({
     path: '/api/customers',
     query: params,
+  });
+};
+
+type GetCustomerPurchases = {
+  id: number;
+};
+
+/** 특정 고객의 구매 내역을 조회합니다 */
+export const getCustomerPurchases = async (params: GetCustomerPurchases) => {
+  return await fetcher.get<Purchase[]>({
+    path: `/api/customers/${params.id}/purchases`,
   });
 };
