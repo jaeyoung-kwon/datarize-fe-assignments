@@ -4,12 +4,7 @@ import type { Customer } from '@/lib/mockData';
 import { SearchInput } from '@/components/SearchInput';
 import { SortIcon } from '@/components/SortIcon';
 import { ErrorBoundary } from 'react-error-boundary';
-import {
-  Table,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/Table';
+import { Table, TableHead, TableHeader, TableRow } from '@/components/Table';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import Card from '../../../components/Card';

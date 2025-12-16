@@ -23,5 +23,15 @@ export const dashboardQueries = {
   customers: (params: { sortBy?: 'asc' | 'desc'; name?: string }) => ({
     queryKey: [...dashboardQueries.all, 'customers', params] as const,
     queryFn: () => getCustomers(params),
+    retry: (failureCount: number, error: unknown) => {
+      // 404 에러면 재시도하지 않음
+      if (error && typeof error === 'object' && 'status' in error) {
+        if ((error as { status: number }).status === 404) {
+          return false;
+        }
+      }
+      // 그 외 에러는 최대 3번까지 재시도
+      return failureCount < 3;
+    },
   }),
 };

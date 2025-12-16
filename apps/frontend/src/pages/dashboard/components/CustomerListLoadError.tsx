@@ -9,8 +9,10 @@ const CustomerListLoadError = () => {
         <ErrorCell colSpan={4} align="center">
           <Container>
             <ErrorIcon>⚠️</ErrorIcon>
-            <ErrorTitle>데이터를 불러올 수 없습니다</ErrorTitle>
-            <ErrorMessage>잠시 후 다시 시도해주세요.</ErrorMessage>
+            <ErrorTitle>검색 결과를 불러올 수 없습니다</ErrorTitle>
+            <ErrorMessage>
+              검색 키워드를 변경해보거나 잠시 후 다시 시도해주세요.
+            </ErrorMessage>
           </Container>
         </ErrorCell>
       </TableRow>
