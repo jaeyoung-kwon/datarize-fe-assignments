@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import styled from '@emotion/styled'
 import Header from '@/components/Header'
-import PurchaseFrequencyChart from '@/components/dashboard/PurchaseFrequencyChart'
-import CustomerList from '@/components/dashboard/CustomerList'
 import CustomerDetailDialog from '@/components/dashboard/CustomerDetailDialog'
+import CustomerList from '@/components/dashboard/CustomerList'
+import PurchaseFrequencyChart from '@/components/dashboard/PurchaseFrequencyChart'
 import type { Customer } from '@/lib/mockData'
+import styled from '@emotion/styled'
+import { useState } from 'react'
 
 const Index = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)

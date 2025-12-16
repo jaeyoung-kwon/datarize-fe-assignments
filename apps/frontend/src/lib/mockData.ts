@@ -1,8 +1,20 @@
-export interface Customer {
-  id: number
-  name: string
-  totalPurchase: number
-  count: number
+export interface Purchase {
+  productId: number
+  customerId: number
+  quantity: number
+  date: string
 }
 
-export const mockCustomers: Customer[] = []
+export interface Customer {
+  id: string
+  name: string
+  totalPurchases: number
+  totalAmount: number
+}
+
+export interface PurchaseFrequency {
+  priceRange: string
+  count: number
+  minPrice: number
+  maxPrice: number
+}
