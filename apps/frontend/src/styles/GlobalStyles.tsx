@@ -1,5 +1,5 @@
-import { Global, css } from '@emotion/react'
-import { theme } from './theme'
+import { Global, css } from '@emotion/react';
+import { theme } from './theme';
 
 const globalStyles = css`
   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -34,6 +34,6 @@ const globalStyles = css`
       transform: rotate(360deg);
     }
   }
-`
+`;
 
-export const GlobalStyles = () => <Global styles={globalStyles} />
+export const GlobalStyles = () => <Global styles={globalStyles} />;
