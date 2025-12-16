@@ -1,29 +1,6 @@
 import styled from '@emotion/styled';
 import { theme } from './theme';
 
-// Card Components
-export const Card = styled.div`
-  width: 100%;
-  background-color: ${theme.colors.card};
-  border-radius: ${theme.radius};
-  box-shadow: ${theme.shadows.card};
-  animation: fadeIn 0.3s ease-out;
-`;
-
-export const CardHeader = styled.div`
-  padding: 1.5rem 1.5rem 0.5rem;
-`;
-
-export const CardTitle = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: ${theme.colors.foreground};
-`;
-
-export const CardContent = styled.div`
-  padding: 1.5rem;
-`;
-
 // Button Components
 export const Button = styled.button<{
   variant?: 'primary' | 'outline' | 'ghost';
