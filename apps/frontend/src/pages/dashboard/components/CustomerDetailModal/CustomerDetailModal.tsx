@@ -2,7 +2,7 @@ import CloseIcon from '#/close.svg?react';
 import UserIcon from '#/user.svg?react';
 import { useClickOutsideRef } from '@/hooks/useClickOutsideRef';
 import { useScrollLock } from '@/hooks/useScrollLock';
-import type { Customer } from '@/lib/mockData';
+import type { Customer } from '@/types';
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { ErrorBoundary } from 'react-error-boundary';

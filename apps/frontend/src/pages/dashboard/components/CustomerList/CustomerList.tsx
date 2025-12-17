@@ -1,6 +1,6 @@
 import { useSearchParamState } from '@/hooks/useSearchParamState';
 import { useSort } from '@/pages/dashboard/hooks/useSort';
-import type { Customer } from '@/lib/mockData';
+import type { Customer } from '@/types';
 import { SearchInput } from '@/components/SearchInput';
 import { SortIcon } from '@/components/SortIcon';
 import { ErrorBoundary } from 'react-error-boundary';

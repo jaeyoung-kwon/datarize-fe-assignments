@@ -4,8 +4,7 @@
  * React Query와 함께 사용하려면 queries.ts를 import하세요.
  */
 
-import type { Customer, Purchase, PurchaseFrequency } from '@/lib/mockData';
-import type { SortOrder } from '@/types';
+import type { Customer, Purchase, PurchaseFrequency, SortOrder } from '@/types';
 import { fetcher } from '../fetcher';
 
 type PurchaseFrequencyParams = {

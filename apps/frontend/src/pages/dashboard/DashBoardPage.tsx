@@ -1,4 +1,4 @@
-import type { Customer } from '@/lib/mockData';
+import type { Customer } from '@/types';
 import CustomerList from '@/pages/dashboard/components/CustomerList';
 import DashBoardHeader from '@/pages/dashboard/components/DashBoardHeader';
 import PurchaseFrequencyChart from '@/pages/dashboard/components/PurchaseFrequencyChart';

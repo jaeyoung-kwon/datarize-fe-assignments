@@ -1,7 +1,7 @@
 import ShoppingBagIcon from '#/shopping_bag.svg?react';
 import { dashboardQueries } from '@/apis/dashboard/queries';
 import { Divider } from '@/components/Divider';
-import type { Customer } from '@/lib/mockData';
+import type { Customer } from '@/types';
 import { theme } from '@/styles/theme';
 import { formatCurrency, formatDate } from '@/utils';
 import styled from '@emotion/styled';

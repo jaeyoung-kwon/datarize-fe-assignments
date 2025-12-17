@@ -1,5 +1,5 @@
 import { dashboardQueries } from '@/apis/dashboard/queries';
-import type { Customer } from '@/lib/mockData';
+import type { Customer } from '@/types';
 import type { SortOrder } from '@/types';
 import { Badge } from '@/components/Badge';
 import { TableBody, TableCell, TableRow } from '@/components/Table';
