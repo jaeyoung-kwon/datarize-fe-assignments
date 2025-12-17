@@ -4,7 +4,6 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     tanstackRouter({
