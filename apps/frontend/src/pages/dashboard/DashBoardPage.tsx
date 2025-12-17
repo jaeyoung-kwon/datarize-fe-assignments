@@ -1,25 +1,13 @@
-import type { Customer } from '@/types';
+import CustomerDetailModal from '@/pages/dashboard/components/CustomerDetailModal/CustomerDetailModal';
 import CustomerList from '@/pages/dashboard/components/CustomerList';
 import DashBoardHeader from '@/pages/dashboard/components/DashBoardHeader';
 import PurchaseFrequencyChart from '@/pages/dashboard/components/PurchaseFrequencyChart';
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import CustomerDetailModal from '@/pages/dashboard/components/CustomerDetailModal/CustomerDetailModal';
+import { useCustomerDetailModal } from './hooks/useCustomDetailModal';
 
 const DashBoardPage = () => {
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null,
-  );
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const handleSelectCustomer = (customer: Customer) => {
-    setSelectedCustomer(customer);
-    setDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setDialogOpen(false);
-  };
+  const { selectedCustomer, open, openModal, closeModal } =
+    useCustomerDetailModal();
 
   return (
     <Container>
@@ -27,14 +15,14 @@ const DashBoardPage = () => {
 
       <ContentWrapper>
         <PurchaseFrequencyChart />
-        <CustomerList onSelectCustomer={handleSelectCustomer} />
+        <CustomerList onSelectCustomer={openModal} />
       </ContentWrapper>
 
       {selectedCustomer && (
         <CustomerDetailModal
           customer={selectedCustomer}
-          open={dialogOpen}
-          onClose={handleCloseDialog}
+          open={open}
+          onClose={closeModal}
         />
       )}
     </Container>
