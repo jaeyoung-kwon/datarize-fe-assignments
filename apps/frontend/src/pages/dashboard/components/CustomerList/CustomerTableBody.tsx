@@ -14,7 +14,7 @@ interface CustomerTableBodyProps {
   onSelectCustomer: (customer: Customer) => void;
 }
 
-export const CustomerTableBody = ({
+const CustomerTableBody = ({
   name,
   sortBy,
   onSelectCustomer,
@@ -59,6 +59,8 @@ export const CustomerTableBody = ({
     </TableBody>
   );
 };
+
+export default CustomerTableBody;
 
 const EmptyCell = styled(TableCell)`
   height: 8rem;

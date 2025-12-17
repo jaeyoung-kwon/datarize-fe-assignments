@@ -1,10 +1,10 @@
 import type { Customer } from '@/lib/mockData';
-import CustomerDetailModal from '@/pages/dashboard/components/CustomerDetailModal';
 import CustomerList from '@/pages/dashboard/components/CustomerList';
 import DashBoardHeader from '@/pages/dashboard/components/DashBoardHeader';
 import PurchaseFrequencyChart from '@/pages/dashboard/components/PurchaseFrequencyChart';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import CustomerDetailModal from '@/pages/dashboard/components/CustomerDetailModal/CustomerDetailModal';
 
 const DashBoardPage = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(

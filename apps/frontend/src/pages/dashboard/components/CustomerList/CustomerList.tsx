@@ -12,7 +12,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { Button } from '@/components/Button';
 import CustomerListLoadError from './CustomerListLoadError';
-import { CustomerTableBody } from './CustomerTableBody';
+import CustomerTableBody from './CustomerTableBody';
 import CustomerListLoading from './CustomerListLoading';
 
 interface CustomerListProps {

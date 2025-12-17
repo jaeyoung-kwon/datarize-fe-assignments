@@ -7,7 +7,7 @@ import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
-import { CustomerPurchaseList } from './CustomerPurchaseList';
+import CustomerPurchaseList from './CustomerPurchaseList';
 import CustomerDetailModalLoading from './CustomerDetailModalLoading';
 import CustomerDetailModalLoadError from './CustomerDetailModalLoadError';
 

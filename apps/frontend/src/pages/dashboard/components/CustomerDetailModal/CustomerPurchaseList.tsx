@@ -11,9 +11,7 @@ interface CustomerPurchaseListProps {
   customer: Customer;
 }
 
-export const CustomerPurchaseList = ({
-  customer,
-}: CustomerPurchaseListProps) => {
+const CustomerPurchaseList = ({ customer }: CustomerPurchaseListProps) => {
   const { data: purchases } = useSuspenseQuery(
     dashboardQueries.customerPurchases({ id: customer.id }),
   );
@@ -66,6 +64,9 @@ export const CustomerPurchaseList = ({
                   </Thumbnail>
                   <ProductInfo>
                     <ProductName>{purchase.product}</ProductName>
+                    <ProductQuantity>
+                      수량: {purchase.quantity}개
+                    </ProductQuantity>
                   </ProductInfo>
                   <Price>{formatCurrency(purchase.price)}</Price>
                 </PurchaseItem>
@@ -77,6 +78,8 @@ export const CustomerPurchaseList = ({
     </>
   );
 };
+
+export default CustomerPurchaseList;
 
 const StatsGrid = styled.div`
   display: grid;
@@ -167,6 +170,12 @@ const ProductName = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+const ProductQuantity = styled.p`
+  font-size: 0.75rem;
+  color: ${theme.colors.mutedForeground};
+  margin-top: 0.25rem;
 `;
 
 const Price = styled.p`
