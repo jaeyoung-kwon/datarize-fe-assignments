@@ -1,8 +1,13 @@
 import { theme } from '@/styles/theme';
 import styled from '@emotion/styled';
 import { Link } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
 const NotFoundPage = () => {
+  useEffect(() => {
+    document.title = 'Datarize | 404 - 페이지를 찾을 수 없습니다';
+  }, []);
+
   return (
     <Container>
       <Content>
