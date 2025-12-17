@@ -1,6 +1,7 @@
 import CalendarIcon from '#/calendar.svg?react';
 import { useClickOutsideRef } from '@/hooks/useClickOutsideRef';
 import { theme } from '@/styles/theme';
+import { formatDateShort } from '@/utils';
 import styled from '@emotion/styled';
 import { ko } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
@@ -41,6 +42,21 @@ const DateRangePicker = ({
     }
   };
 
+  const getDisplayLabel = () => {
+    if (!value.from || !value.to) {
+      return label;
+    }
+
+    const fromLabel = formatDateShort(value.from);
+    const toLabel = formatDateShort(value.to);
+
+    if (fromLabel === toLabel) {
+      return fromLabel;
+    }
+
+    return `${fromLabel} ~ ${toLabel}`;
+  };
+
   // 모달이 열릴 때마다 value 값으로 내부 상태 초기화
   useEffect(() => {
     if (!isOpen) return;
@@ -55,9 +71,7 @@ const DateRangePicker = ({
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <CalendarIcon />
-        {value.from && value.to
-          ? `${value.from.toLocaleDateString()} ~ ${value.to.toLocaleDateString()}`
-          : label}
+        {getDisplayLabel()}
       </ToggleButton>
 
       {isOpen && (

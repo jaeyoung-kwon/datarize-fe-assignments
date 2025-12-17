@@ -15,3 +15,7 @@ export const formatCurrency = (amount: number): string => {
 export const formatDate = (dateStr: string) => {
   return format(new Date(dateStr), 'yyyy년 M월 d일 (EEE)', { locale: ko });
 };
+
+export const formatDateShort = (date: Date) => {
+  return format(date, 'yyyy. M. d', { locale: ko });
+};

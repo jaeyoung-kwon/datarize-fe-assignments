@@ -34,10 +34,7 @@ const PurchaseFrequencyChart = () => {
         resetKeys={[dateRange]}
       >
         <Suspense fallback={<Spinner size={32} />}>
-          <PurchaseFrequencyChartContent
-            fromDate={dateRange.from!}
-            toDate={dateRange.to!}
-          />
+          <PurchaseFrequencyChartContent dateRange={dateRange} />
         </Suspense>
       </ErrorBoundary>
     </Card>

@@ -1,4 +1,5 @@
 import { dashboardQueries } from '@/apis/dashboard/queries';
+import { DateRange } from '@/components/DateRangePicker/DateRangePicker.types';
 import { theme } from '@/styles/theme';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -14,18 +15,16 @@ import {
 } from 'recharts';
 
 interface PurchaseFrequencyChartContentProps {
-  fromDate: Date;
-  toDate: Date;
+  dateRange: DateRange;
 }
 
 const PurchaseFrequencyChartContent = ({
-  fromDate,
-  toDate,
+  dateRange,
 }: PurchaseFrequencyChartContentProps) => {
   const { data } = useSuspenseQuery(
     dashboardQueries.purchaseFrequency({
-      from: format(fromDate, 'yyyy-MM-dd'),
-      to: format(toDate, 'yyyy-MM-dd'),
+      from: dateRange.from ? format(dateRange.from, 'yyyy-MM-dd') : undefined,
+      to: dateRange.to ? format(dateRange.to, 'yyyy-MM-dd') : undefined,
     }),
   );
 
