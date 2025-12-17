@@ -106,13 +106,13 @@ const StatLabel = styled.p`
 `;
 
 const ScrollArea = styled.div`
-  max-height: 400px;
+  height: 400px;
   overflow-y: auto;
   padding: 0 1.5rem;
 `;
 
 const PurchaseGroup = styled.div`
-  padding: 1rem 0;
+  padding: 1rem 0 0;
 `;
 
 const DateHeader = styled.div`
